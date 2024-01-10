@@ -1,0 +1,9 @@
+[Unit]
+Description=Jenkins Service
+[Service]
+Type=Simple
+User=jenkins
+ExecStart=/usr/bin/java -jar /usr/local/bin/jenkins.war
+WorkingDirectory=/home/jenkins
+[Install]
+WantedBy=multi-user.target

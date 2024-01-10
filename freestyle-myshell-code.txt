@@ -1,0 +1,7 @@
+#!/bin/bash
+
+echo "This is the start of our Jenkins Job"
+pwd
+id
+ls -a
+echo "End of task"

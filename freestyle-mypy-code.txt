@@ -1,0 +1,7 @@
+#!/usr/bin/python3
+
+print("This is our Jenkins Python script")
+x=10
+y=4
+z=2
+print("The meaning of life is",x*y+z)

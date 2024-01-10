@@ -1,0 +1,9 @@
+[Unit]
+Description=Jenkins Agent Service
+[Service]
+Type=Simple
+User=root
+ExecStart=/home/jenkins/jenkins-agent.sh
+WorkingDirectory=/home/jenkins
+[Install]
+WantedBy=multi-user.target

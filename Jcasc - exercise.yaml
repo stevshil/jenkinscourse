@@ -1,0 +1,75 @@
+jenkins:
+  systemMessage: "Jenkins configured automatically by Jenkins Configuration as Code plugin\n\n"
+  authorizationStrategy: unsecured
+  agentProtocols:
+    - "JNLP4-connect"
+    - "Ping"
+  slaveAgentPort: 50000
+  disableRememberMe: false
+  numExecutors: 4
+  nodes:
+    - permanent:
+        labelString: "Linux1"
+        mode: NORMAL
+        name: "Linux1"
+        remoteFS: "/home/jenkins"
+        launcher:
+          SSHLauncher:
+            host: 192.168.1.231
+            port: 22
+            credentialsId: student
+            launchTimeoutSeconds: 60
+            maxNumRetries: 3
+            retryWaitTime: 30
+            sshHostKeyVerificationStrategy:
+              manuallyTrustedKeyVerificationStrategy:
+                requireInitialManualTrust: false
+credentials:
+  system:
+    domainCredentials:
+      - credentials:
+          - usernamePassword:
+              scope: GLOBAL
+              id: "student"
+              username: "student"
+              password: "secret"
+              description: "student"
+globalCredentialsConfiguration:
+  configuration:
+    providerFilter: "none"
+    typeFilter: "none"
+tool:
+  git:
+    installations:
+    - home: "git"
+      name: "Default"
+  mavenGlobalConfig:
+    globalSettingsProvider: "standard"
+    settingsProvider: "standard"
+jobs:
+  - script: >
+      pipelineJob('myshell') {
+        displayName('myshell')
+        definition {
+          cps {
+            script("""
+               pipeline {
+                 agent any
+                 stages {
+                   stage('Run') {
+                     steps {
+                       sh '''
+                         echo "This is the start of our Jenkins Job"
+                         pwd
+                         id
+                         ls -a
+                         echo "End of task"
+                       '''
+                     }
+                   }
+                 }
+               }
+            """)
+          }
+        }
+      }
