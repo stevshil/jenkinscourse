@@ -1,0 +1,47 @@
+// def isOK = "bad"
+pipeline {
+  agent any
+  parameters {
+    string(name: 'dirParameter', defaultValue: '/home', description: 'Specify a directory')
+  }
+  environment {
+      isOK = "bad"
+  }
+
+  stages {
+    stage('Check Directory') {
+      steps {
+          script {
+            echo "isOK before check ${isOK}"
+            isOK = sh(returnStdout: true, script: """
+                if test -d "${dirParameter}"
+                then
+                  echo "good"
+                  isOK="good"
+                fi
+            """)
+            echo "isOK after check ${isOK}"
+            isOK="${isOK}"
+          }
+      }
+    }
+    stage('List Directory') {
+      when {
+          expression {
+              isOK = isOK.trim()
+              isOK == 'good'
+          }
+      }
+      steps {
+          sh '''
+            ls
+          '''
+      }
+    }
+    stage("Done") {
+      steps {
+        echo "End"
+      }
+    }
+  }
+}
