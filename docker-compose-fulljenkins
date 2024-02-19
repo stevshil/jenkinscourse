@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+    jenkins:
+        image: jenkins/jenkins:2.439-jdk21
+        volumes:
+            - /home/student/plugins.txt:/usr/share/jenkins/ref/plugins.txt:ro
+            - /home/student/jcasc.yaml:/usr/share/jenkins/jenkins.yaml:ro
+            - /home/student/jenkins:/var/jenkins_home
+            - /var/run/docker.sock:/var/run/docker.sock
+            - /usr/bin/docker:/usr/bin/docker
+        user: root
+        environment:
+            CASC_JENKINS_CONFIG: /usr/share/jenkins
+        command: /bin/bash -c "mkdir /var/jenkins_home/plugins && jenkins-plugin-cli --verbose --war /usr/share/jenkins/jenkins.war --plugin-file /usr/share/jenkins/ref/plugins.txt --plugin-download-directory /var/jenkins_home/plugins; java -Duser.home=/var/jenkins_home -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.lifecycle=hudson.lifecycle.ExitLifecycle -Djenkins.install.runSetupWizard=false -jar /usr/share/jenkins/jenkins.war"

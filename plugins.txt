@@ -16,3 +16,4 @@ git-parameter
 github
 ssh-slaves
 job-dsl
+docker-workflow
