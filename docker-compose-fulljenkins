@@ -9,7 +9,11 @@ services:
             - /home/student/jenkins:/var/jenkins_home
             - /var/run/docker.sock:/var/run/docker.sock
             - /usr/bin/docker:/usr/bin/docker
+            - /home/student/job_files:/var/jenkins_home/job_files
         user: root
+        ports:
+            - 8080:8080
+            - 50000:50000
         environment:
             CASC_JENKINS_CONFIG: /usr/share/jenkins
         command: /bin/bash -c "mkdir /var/jenkins_home/plugins && jenkins-plugin-cli --verbose --war /usr/share/jenkins/jenkins.war --plugin-file /usr/share/jenkins/ref/plugins.txt --plugin-download-directory /var/jenkins_home/plugins; java -Duser.home=/var/jenkins_home -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.lifecycle=hudson.lifecycle.ExitLifecycle -Djenkins.install.runSetupWizard=false -jar /usr/share/jenkins/jenkins.war"
