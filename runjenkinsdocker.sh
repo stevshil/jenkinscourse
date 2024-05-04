@@ -4,7 +4,7 @@ sudo rm -rf jenkins
 mkdir jenkins
 chmod 777 jenkins
 
-docker run -itd --name=jenkins --restart=always \
+docker run -d --name=jenkins --restart=always \
 -p 8080:8080 -p 50000:50000 \
 -v /home/student/plugins.txt:/usr/share/jenkins/ref/plugins.txt:ro \
 -v /home/student/jcasc.yaml:/usr/share/jenkins/jenkins.yaml:ro \

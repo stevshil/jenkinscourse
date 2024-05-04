@@ -1,0 +1,43 @@
+jenkins:
+  systemMessage: "Jenkins configured automatically by Jenkins Configuration as Code plugin\n\n"
+  authorizationStrategy: unsecured
+  agentProtocols:
+    - "JNLP4-connect"
+    - "Ping"
+  slaveAgentPort: 50000
+  disableRememberMe: false
+  numExecutors: 4
+globalCredentialsConfiguration:
+  configuration:
+    providerFilter: "none"
+    typeFilter: "none"
+tool:
+  git:
+    installations:
+    - home: "git"
+      name: "Default"
+jobs:
+  - script: >
+      pipelineJob("testpy") {
+        definition {
+          cps {
+              sandbox(true)
+              script("""
+                pipeline {
+                  agent {
+                    docker {
+                      image 'python:3.12-alpine3.19'
+                    }
+                  }
+                  stages {
+                    stage('Do job stage') {
+                      steps {
+                        sh "python --version"
+                      }
+                    }
+                  }
+                }
+              """)
+          }
+        }
+      }

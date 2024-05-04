@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: plugins
+  namespace: jenkins
+data:
+  plugins.txt: |
+    dashboard-view
+    cloudbees-folder
+    configuration-as-code
+    antisamy-markup-formatter
+    build-timeout
+    credentials-binding
+    ssh-agent
+    timestamper
+    ws-cleanup
+    workflow-aggregator
+    github-branch-source
+    pipeline-github-lib
+    pipeline-stage-view
+    git
+    git-parameter
+    github
+    ssh-slaves
+    job-dsl
+    docker-workflow
+    kubernetes
+    kubernetes-cli
+    kubernetes-client-api
+    kubernetes-credentials
+    kubernetes-pipeline-devops-steps
